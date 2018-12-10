@@ -427,6 +427,13 @@ public class GooglePlayIabService implements IIabService {
 
         @Override
         public void onFetchSkusDetailsFinished(IabResult result, IabInventory inventory) {
+            // vkuskov: Strange crashes on inventory access line. No way to check what's going on so
+            // we just check if inventory is null and then go away.
+            if (inventory == null)
+            {
+                SoomlaUtils.LogWarning(TAG, "Inventory is null. Do nothing.");
+                return;
+            }
             SoomlaUtils.LogDebug(TAG, "Restore Purchases succeeded");
             if (result.getResponse() == IabResult.BILLING_RESPONSE_RESULT_OK && mFetchSkusDetailsListener != null) {
 
